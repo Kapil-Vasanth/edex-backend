@@ -1,0 +1,106 @@
+[{
+    "student_id": "JOUS01",
+    "university": "Harvard University",
+    "first_name": "John",
+    "last_name": "Doe",
+    "full_name":"",
+    "citizenship": "USA",
+    "email": "",
+    "phone": "",
+    "passport": "",
+    "ielts": "",
+    "status": "",
+    "dob":"",
+    "gender":"",
+    "score":"",
+    "remarks":"",
+    "program":"",
+    "date-of-visa":"",
+
+    "contact_details":[{
+        "type":"mobile phone",
+        "name":"N/A",
+        "description":"some text"
+    }],
+    "address":[{
+        "type":"home",
+        "description":"some text"
+    }],
+    "emergency_contacts":[{
+        "name":"home",
+        "relationship":"N/A",
+        "phone_number":"some text"
+    }],
+    "unsubmitted_programmes":[{
+        "id":"passport",
+        "programme":"some text",
+        "pathway":"some text",
+        "year":"some text",
+        "intake":"some text",
+        "managed_by":"some text",
+        "priority":"some text"
+    }],
+    "submitted_programmes":[{
+        "id":"passport",
+        "programme":"some text",
+        "pathway":"some text",
+        "year":"some text",
+        "intake":"some text",
+        "managed_by":"some text",
+        "status":"some text",
+        "explanation":"some text",
+        "action_required":"some text",
+        "priority":"some text"
+    }],
+    "academic_details":[{
+        "school":"home",
+        "qualification":"some text",
+        "country"  :"some text",
+        "period":"some text"
+    }],
+    "tertiary_education":[{
+        "institution":"home",
+        "qualification":"some text",
+        "country"  :"some text",
+        "period":"some text",
+        "completed":"some text",
+        "awaiting_results":"some text"
+    }],
+    "employement_history":[{
+        "employer":"home",
+        "period":"some text",
+        "position"  :"some text",
+        "nature_of_work":"some text"
+    }],
+    "language_proficiency":[{
+        "language":"home",
+        "reading":"some text",
+        "writing":"some text",
+        "speaking":"some text",
+        "listening":"some text",
+        "overall":"some text",
+        "description":"some text",
+        "yes_no":"some text"
+    }],
+    "documents":[{
+        "type":"",
+        "name":"home",
+        "certified":"some text",
+        "certified_by":"some text",
+        "certified_date":"some text",
+        "upload_date":"some text",
+        "expiry_date":"some text",
+        "file_id":"some text",
+        "file_src":"some text"
+    }]
+},
+{
+    "student_id": "AAIN01",
+    "university": "Auckland University of Technology",
+    "first_name": "Aakshy",
+    "last_name": "Shah",
+    "full_name":"Aakshy Shah",
+    "citizenship": "India",
+    "program":"Masters in Project Management",
+    "remarks":"Finished Study"
+}]
