@@ -11,6 +11,7 @@ const studentSchema = new mongoose.Schema({
   email: String,
   phone: String,
   passport: String,
+  passport_expiry: String,
   ielts: String,
   status: String,
   dob: String,
@@ -19,6 +20,7 @@ const studentSchema = new mongoose.Schema({
   remarks: String,
   program: String,
   date_of_visa: String,
+  avatar: String,
 
   contact_details: [{
     contact_type: String,
@@ -72,11 +74,11 @@ const studentSchema = new mongoose.Schema({
     qualification: String,
     country: String,
     period: String,
-    completed: String,
-    awaiting_results: String
+    completed: Boolean,
+    awaiting_results: Boolean
   }],
 
-  employement_history: [{
+  employment_history: [{
     employer: String,
     period: String,
     position: String,

@@ -19,12 +19,14 @@ const getStudentByStudentId = async (studentId) => {
 }
 
 const createStudent = async (data) => {
+    
     const newStudent = new Student(data);
     return await newStudent.save();
 };
 
 const updateStudent = async (id, data) => {
-    const updatedStudent = await Student.findByIdAndUpdate(id, data, { new: true });
+    const { avatar, ...updateData } = data; // Exclude the avatar field from the update
+    const updatedStudent = await Student.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedStudent) throw new Error('Student not found');
     return updatedStudent;
 };
@@ -39,7 +41,7 @@ const deleteStudent = async (id) => {
 const updateStudentContactDetails = async (id, contactDetails) => {
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
-        { $set: { contact_details: contactDetails } },
+        { $set: { emergency_contacts: contactDetails } },
         { new: true }
     );
     console.log(updatedStudent)
@@ -76,10 +78,56 @@ const updateEmergencyContactsDetails = async (id, emergencyContactsDetails) => {
     return updatedStudent;
 }
 
+const updateAcademicDetails = async (id, academicDetails) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { academic_details: academicDetails } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
 
+const updateTertiaryEducationDetails = async (id, tertiaryEducationDetails) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { tertiary_education: tertiaryEducationDetails } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
+
+const updateEmploymentHistoryDetails = async (id, employmentHistoryDetails) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { employment_history: employmentHistoryDetails } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
+
+const updateLanguageProficiencyDetails = async (id, languageProficiencyDetails) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { language_proficiency: languageProficiencyDetails } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
 
   
-  
+const uploadStudentAvatar = async (id, avatarPath) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { avatar: avatarPath } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
   
 
 module.exports = {
@@ -91,5 +139,10 @@ module.exports = {
     getStudentByStudentId,
     updateStudentContactDetails,
     updateStudentAddressDetails,
-    updateEmergencyContactsDetails
+    updateEmergencyContactsDetails,
+    updateAcademicDetails,
+    updateTertiaryEducationDetails,
+    updateEmploymentHistoryDetails,
+    updateLanguageProficiencyDetails,
+    uploadStudentAvatar
 };

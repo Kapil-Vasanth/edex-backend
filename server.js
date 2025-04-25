@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const StudentRoute = require('./routes/studentRoutes');
+const path = require('path');
 
 dotenv.config();
 
@@ -12,7 +13,10 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(cors())
+app.use(cors());
+
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Database connection
 connectDB()

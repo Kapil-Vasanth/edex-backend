@@ -8,25 +8,37 @@ const {
     getStudentByStudentId,
     getStudentContactDetails,
     updateStudentContactDetails,
-    updateStudentAddressDetails
+    updateStudentAddressDetails,
+    updateAcademicDetails,
+    updateTertiaryEducationDetails,
+    updateEmergencyContactsDetails,
+    updateEmploymentHistoryDetails,
+    updateLanguageProficiencyDetails,
+    uploadStudentAvatar
 } = require('../controllers/studentControllers');
+const { uploadAvatar } = require('../middleware/uploads');
 
 const router = express.Router();
 
 router.post('/', createStudent);
-
 router.get('/', getAllStudents);
-
 router.get('/:id', getStudentByStudentId);
-
 router.put('/:id', updateStudent);
-
 router.get('/:id/contact-details', getStudentContactDetails);
 router.put('/:id/contact-details', updateStudentContactDetails);
 
 router.put('/:id/address-details', updateStudentAddressDetails);
 
-router.put('/:id/emergency-details', updateStudentAddressDetails);
+router.put('/:id/emergency-details', updateEmergencyContactsDetails);
+router.put('/:id/academic-details', updateAcademicDetails);
+router.put('/:id/tertiary-education', updateTertiaryEducationDetails);
+router.put('/:id/employment-history', updateEmploymentHistoryDetails);
+router.put('/:id/language-proficiency', updateLanguageProficiencyDetails);
+
+
+
+router.post('/:id/upload-avatar', uploadAvatar.single('avatar'), uploadStudentAvatar);
+
 
 // Route to delete a student by ID
 router.delete('/:id', deleteStudent);

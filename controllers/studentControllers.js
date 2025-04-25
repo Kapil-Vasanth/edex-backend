@@ -1,6 +1,28 @@
 // controllers/studentController.js
-
+const path = require('path');
 const studentService = require('../services/studentService');
+
+const uploadStudentAvatar = async (req, res) => {
+    try {
+      const studentId = req.params.id;
+      const avatarPath = path.posix.join('uploads', studentId, req.file.filename); // relative path for frontend
+      
+      const student = await studentService.uploadStudentAvatar(studentId, avatarPath);
+  
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+  
+      res.status(200).json({
+        message: 'Avatar uploaded successfully',
+        avatar: avatarPath,
+        student
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to upload avatar' });
+    }
+};
 
 const getAllStudents = async (req, res) => {
     try {
@@ -137,7 +159,92 @@ const updateEmergencyContactsDetails = async (req, res) => {
     }
 }
 
+const updateAcademicDetails = async (req, res) => {
+    const { id } = req.params;
+    const { academic_details } = req.body;
+    if (!Array.isArray(academic_details)) {
+      return res.status(400).json({ message: "academic_details must be an array" });
+    }
+    if(!id){
+        return res.status(400).json({ message: "Student ID is required" });
+    }
+    try {
+        const updatedStudent = await studentService.updateAcademicDetails(id, academic_details);
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const updateTertiaryEducationDetails = async (req, res) => {
+    const { id } = req.params;
+    const { tertiary_education } = req.body;
+    if (!Array.isArray(tertiary_education)) {
+      return res.status(400).json({ message: "tertiary_education must be an array" });
+    }
+    if(!id){
+        return res.status(400).json({ message: "Student ID is required" });
+    }
+    try {
+        const updatedStudent = await studentService.updateTertiaryEducationDetails(id, tertiary_education);
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const updateEmploymentHistoryDetails = async (req, res) => {
+    const { id } = req.params;
+    const { employment_history } = req.body;
+    if (!Array.isArray(employment_history)) {
+      return res.status(400).json({ message: "employment_history must be an array" });
+    }
+    if(!id){
+        return res.status(400).json({ message: "Student ID is required" });
+    }
+    try {
+        const updatedStudent = await studentService.updateEmploymentHistoryDetails(id, employment_history);
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const updateLanguageProficiencyDetails = async (req, res) => {
+    const { id } = req.params;
+    const { language_proficiency } = req.body;
+    if (!Array.isArray(language_proficiency)) {
+      return res.status(400).json({ message: "language_proficiency must be an array" });
+    }
+    if(!id){
+        return res.status(400).json({ message: "Student ID is required" });
+    }
+    try {
+        const updatedStudent = await studentService.updateLanguageProficiencyDetails(id, language_proficiency);
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
+    uploadStudentAvatar,
     getAllStudents,
     getStudentById,
     createStudent,
@@ -149,6 +256,9 @@ module.exports = {
     updateStudentContactDetails,
 
     updateStudentAddressDetails,
-
-    updateEmergencyContactsDetails
+    updateEmergencyContactsDetails,
+    updateAcademicDetails,
+    updateTertiaryEducationDetails,
+    updateEmploymentHistoryDetails,
+    updateLanguageProficiencyDetails
 };
