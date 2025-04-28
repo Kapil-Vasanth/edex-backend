@@ -39,9 +39,10 @@ const deleteStudent = async (id) => {
 
 
 const updateStudentContactDetails = async (id, contactDetails) => {
+    console.log('Contact details to update:', contactDetails); // Log the input to check the structure
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
-        { $set: { emergency_contacts: contactDetails } },
+        { $set: { contact_details : contactDetails } },
         { new: true }
     );
     console.log(updatedStudent)
@@ -118,6 +119,16 @@ const updateLanguageProficiencyDetails = async (id, languageProficiencyDetails) 
     return updatedStudent;
 }
 
+const updateUnsubmittedProgrammes = async (id, unsubmittedProgrammes) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        { $set: { unsubmitted_programmes: unsubmittedProgrammes } },
+        { new: true }
+    );
+    if (!updatedStudent) throw new Error('Student not found');
+    return updatedStudent;
+}
+
   
 const uploadStudentAvatar = async (id, avatarPath) => {
     const updatedStudent = await Student.findByIdAndUpdate(
@@ -144,5 +155,6 @@ module.exports = {
     updateTertiaryEducationDetails,
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
-    uploadStudentAvatar
+    uploadStudentAvatar,
+    updateUnsubmittedProgrammes,
 };

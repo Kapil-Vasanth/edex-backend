@@ -14,11 +14,14 @@ const {
     updateEmergencyContactsDetails,
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
-    uploadStudentAvatar
+    uploadStudentAvatar,
+    updateUnsubmittedProgrammes
 } = require('../controllers/studentControllers');
 const { uploadAvatar } = require('../middleware/uploads');
+const { authenticateAgent } = require('../middleware/authMiddleware');
 
 const router = express.Router();
+router.use(authenticateAgent);
 
 router.post('/', createStudent);
 router.get('/', getAllStudents);
@@ -34,6 +37,7 @@ router.put('/:id/academic-details', updateAcademicDetails);
 router.put('/:id/tertiary-education', updateTertiaryEducationDetails);
 router.put('/:id/employment-history', updateEmploymentHistoryDetails);
 router.put('/:id/language-proficiency', updateLanguageProficiencyDetails);
+router.put('/:id/unsubmitted-programmes', updateUnsubmittedProgrammes);
 
 
 

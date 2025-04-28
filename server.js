@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const StudentRoute = require('./routes/studentRoutes');
+const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 
 dotenv.config();
@@ -14,6 +15,9 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+// Use the auth routes for agent login
+app.use('/api/auth', authRoutes);
 
 app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 

@@ -243,6 +243,27 @@ const updateLanguageProficiencyDetails = async (req, res) => {
     }
 }
 
+const updateUnsubmittedProgrammes = async (req, res) => {
+    const { id } = req.params;
+    const { unsubmitted_programmes } = req.body;
+    if (!Array.isArray(unsubmitted_programmes)) {
+      return res.status(400).json({ message: "unsubmitted_programmes must be an array" });
+    }
+    if(!id){
+        return res.status(400).json({ message: "Student ID is required" });
+    }
+    try {
+        const updatedStudent = await studentService.updateUnsubmittedProgrammes(id, unsubmitted_programmes);
+        if (!updatedStudent) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.status(200).json(updatedStudent);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     uploadStudentAvatar,
     getAllStudents,
@@ -260,5 +281,6 @@ module.exports = {
     updateAcademicDetails,
     updateTertiaryEducationDetails,
     updateEmploymentHistoryDetails,
-    updateLanguageProficiencyDetails
+    updateLanguageProficiencyDetails,
+    updateUnsubmittedProgrammes,
 };

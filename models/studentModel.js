@@ -21,6 +21,12 @@ const studentSchema = new mongoose.Schema({
   program: String,
   date_of_visa: String,
   avatar: String,
+  date_of_form_filed: String,
+  offer_of_place: String,
+  funds_loan: String,
+  funds_direct_deposit: String,
+  
+  sop: String,
 
   contact_details: [{
     contact_type: String,
