@@ -15,9 +15,10 @@ const {
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
     uploadStudentAvatar,
-    updateUnsubmittedProgrammes
+    updateUnsubmittedProgrammes,
+    uploadStudentDocument
 } = require('../controllers/studentControllers');
-const { uploadAvatar } = require('../middleware/uploads');
+const { uploadAvatar, uploadDocument } = require('../middleware/uploads');
 const { authenticateAgent } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -42,7 +43,7 @@ router.put('/:id/unsubmitted-programmes', updateUnsubmittedProgrammes);
 
 
 router.post('/:id/upload-avatar', uploadAvatar.single('avatar'), uploadStudentAvatar);
-
+router.post('/:id/upload-document', uploadDocument.single('document'), uploadStudentDocument);
 
 // Route to delete a student by ID
 router.delete('/:id', deleteStudent);

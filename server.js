@@ -22,6 +22,7 @@ app.use('/api/auth', authRoutes);
 app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 
+
 // Database connection
 connectDB()
   .then(() => {
@@ -40,4 +41,14 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ message: 'Backend is running smoothly!' });
 });
 app.use('/api/students', StudentRoute);
+
+// Global error handler (place this AFTER all routes/middleware)
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
+
+  const status = err.status || 500;
+  const message = err.message || 'Something went wrong';
+
+  res.status(status).json({ error: message });
+});
 

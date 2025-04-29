@@ -19,7 +19,6 @@ const getStudentByStudentId = async (studentId) => {
 }
 
 const createStudent = async (data) => {
-    
     const newStudent = new Student(data);
     return await newStudent.save();
 };
@@ -39,27 +38,21 @@ const deleteStudent = async (id) => {
 
 
 const updateStudentContactDetails = async (id, contactDetails) => {
-    console.log('Contact details to update:', contactDetails); // Log the input to check the structure
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
         { $set: { contact_details : contactDetails } },
         { new: true }
     );
-    console.log(updatedStudent)
     if (!updatedStudent) throw new Error('Student not found');
     return updatedStudent;
 };
 
 const updateStudentAddressDetails = async (id, addressDetails) => {
-    console.log('Address details to update:', addressDetails); // Log the input to check the structure
-    
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
         { $set: { address_details: addressDetails } },
         { new: true }
     );
-    
-    console.log('Updated student after update operation:', updatedStudent); // Log the returned updated student
     
     if (!updatedStudent) {
         console.log(`Student with id ${id} not found`);
@@ -139,6 +132,31 @@ const uploadStudentAvatar = async (id, avatarPath) => {
     if (!updatedStudent) throw new Error('Student not found');
     return updatedStudent;
 }
+
+const addDocumentToStudent = async (studentId, documentData) => {
+    try {
+      const student = await Student.findById(studentId);
+  
+      if (!student) {
+        return null; // student not found
+      }
+      // Check if documentData is object and has the required prop  erties
+        if (typeof documentData !== 'object' ) {
+            console.error('Invalid document data:', testDoc);
+            throw new Error('Invalid document data');
+        }
+      // Push documentData directly into the documents array
+      student.documents.push(documentData);
+  
+      // Save the student with the new document
+      await student.save();
+  
+      return student;
+    } catch (error) {
+      console.error('Error adding document:', error);
+      throw new Error('Failed to add document');
+    }
+  };
   
 
 module.exports = {
@@ -155,6 +173,7 @@ module.exports = {
     updateTertiaryEducationDetails,
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
-    uploadStudentAvatar,
     updateUnsubmittedProgrammes,
+    uploadStudentAvatar,
+    addDocumentToStudent,
 };

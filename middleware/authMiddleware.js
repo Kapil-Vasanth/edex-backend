@@ -4,11 +4,9 @@ const Agent = require('../models/agentModel'); // Assuming the agent model is in
 
 // Middleware to check if the agent is authenticated
 const authenticateAgent = async (req, res, next) => {
-    console.log('Authenticating agent...'); // Log the request for debugging
   try {
     // Get the token from the request headers
     const token = req.headers.authorization?.split(' ')[1];
-    console.log('Token:', token); // Log the token for debugging
     if (!token) {
       return res.status(401).json({ message: 'No token, authorization denied' });
     }

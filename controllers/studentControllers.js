@@ -24,6 +24,49 @@ const uploadStudentAvatar = async (req, res) => {
     }
 };
 
+const uploadStudentDocument = async (req, res) => {
+    try {
+      const studentId = req.params.id;
+  
+      if (studentId !== req.body.student_id) {
+        return res.status(400).json({ message: 'Student ID mismatch' });
+      }
+      
+      // File path
+      const documentPath = path.posix.join('uploads', studentId, 'documents', req.file.filename);
+  
+      // Create a document object as per schema
+      const documentData = {
+        document_type: req.body.document_type || 'other',
+        file_name: req.body.name || req.file.originalname,
+        certified: req.body.certified || 'no',
+        certified_by: req.body.certified_by || '',
+        certified_date: req.body.certified_date || '',
+        upload_date: new Date().toISOString(),
+        expiry_date: req.body.expiry_date || '',
+        file_id: req.file.filename,
+        file_src: documentPath,
+      };
+  
+      // Push the document to student's document array
+      const student = await studentService.addDocumentToStudent(studentId, documentData);
+  
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+  
+      res.status(200).json({
+        message: 'Document uploaded successfully',
+        document: documentData,
+        student,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Failed to upload document' });
+    }
+};
+  
+
 const getAllStudents = async (req, res) => {
     try {
         const students = await studentService.getAllStudents();
@@ -34,6 +77,7 @@ const getAllStudents = async (req, res) => {
 };
 
 const getStudentById = async (req, res) => {
+    console.log(`Fetching student with ID: ${req.params.id}`);
     try {
         const student = await studentService.getStudentById(req.params.id);
         res.status(200).json(student);
@@ -266,6 +310,8 @@ const updateUnsubmittedProgrammes = async (req, res) => {
 
 module.exports = {
     uploadStudentAvatar,
+    uploadStudentDocument,
+
     getAllStudents,
     getStudentById,
     createStudent,

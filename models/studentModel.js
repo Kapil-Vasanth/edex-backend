@@ -103,15 +103,16 @@ const studentSchema = new mongoose.Schema({
   }],
 
   documents: [{
-    type: String,
-    name: String,
+    document_type: String,
+    file_name: String,
+    file_id: String,
+    file_src: String,
+    comment: String,
     certified: String,
     certified_by: String,
     certified_date: String,
     upload_date: String,
     expiry_date: String,
-    file_id: String,
-    file_src: String
   }]
 }, {
   timestamps: true

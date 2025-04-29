@@ -30,7 +30,7 @@ const agentLogin = async (req, res) => {
 
     // Generate JWT token for agent
     const token = jwt.sign({ agentId: agent._id, role: 'agent' }, jwtSecret, {
-      expiresIn: '1d', // Token expiration time
+      expiresIn: '1h', // Token expiration time
     });
 
     // Send token back to client
