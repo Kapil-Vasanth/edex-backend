@@ -22,9 +22,10 @@ const avatarStorage = multer.diskStorage({
 
 const documentStorage = multer.diskStorage({
   destination: function (req, file, cb) {
+    console.log("inside document storage");
     const studentId = req.params.id;
     const dir = path.join(__dirname, '..', 'uploads', studentId, 'documents');
-
+    console.log("dir", dir);
     // Ensure the folder exists
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
