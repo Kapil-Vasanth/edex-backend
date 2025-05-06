@@ -19,14 +19,20 @@ const {
     uploadStudentDocument
 } = require('../controllers/studentControllers');
 const { uploadAvatar, uploadDocument } = require('../middleware/uploads');
-const { authenticateAgent } = require('../middleware/authMiddleware');
+const {
+    authenticate,
+    authorize,
+    allowSelfOrAdmin
+  } = require('../middleware/authMiddleware');
 
 const router = express.Router();
-router.use(authenticateAgent);
 
-router.post('/', createStudent);
-router.get('/', getAllStudents);
-router.get('/:id', getStudentByStudentId);
+// Apply universal auth + self-or-admin check
+router.use(authenticate);
+
+router.post('/',authorize(['agent']), createStudent);
+router.get('/',authorize(['agent']), getAllStudents);
+router.get('/:id',allowSelfOrAdmin(), getStudentByStudentId);
 router.put('/:id', updateStudent);
 router.get('/:id/contact-details', getStudentContactDetails);
 router.put('/:id/contact-details', updateStudentContactDetails);

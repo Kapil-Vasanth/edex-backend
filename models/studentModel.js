@@ -9,6 +9,7 @@ const studentSchema = new mongoose.Schema({
   citizenship: String,
   country: String,
   email: String,
+  password: String, // Password field
   phone: String,
   passport: String,
   passport_expiry: String,
@@ -25,7 +26,6 @@ const studentSchema = new mongoose.Schema({
   offer_of_place: String,
   funds_loan: String,
   funds_direct_deposit: String,
-  
   sop: String,
 
   contact_details: [{
@@ -116,6 +116,14 @@ const studentSchema = new mongoose.Schema({
   }]
 }, {
   timestamps: true
+});
+
+// Hash password before saving to the database
+studentSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next(); // Don't hash if password isn't modified
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
 const Student = mongoose.model('Student', studentSchema);

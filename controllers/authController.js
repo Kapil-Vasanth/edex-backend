@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Agent = require('../models/agentModel'); // Use the agent model
+const Student = require('../models/studentModel'); // Use the agent model
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -79,9 +80,44 @@ const createAgent = async (req, res) => {
   }
 };
 
+// Function to student login
+// Function to student login
+const loginStudent = async (req, res) => {
+  const jwtSecret = process.env.JWT_SECRET || 'defaultSecretKey';
+  const { email, password } = req.body;
+
+  try {
+    // Find the student by email
+    const student = await Student.findOne({ email });
+
+    if (!student) {
+      return res.status(400).json({ message: 'Student not found' });
+    }
+
+    // Compare the password with the hashed password in the database
+    const isMatch = await bcrypt.compare(password, student.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate a JWT token for student
+    const token = jwt.sign({ studentId: student._id, role: 'student' }, jwtSecret, {
+      expiresIn: '1h', // Token expiration time
+    });
+
+    // Send the response with the token
+    res.json({ message: 'Login successful', token, student : student });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
 
 
 module.exports = {
   agentLogin,
   createAgent,
+  loginStudent,
 };
