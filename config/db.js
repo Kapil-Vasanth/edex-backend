@@ -9,7 +9,9 @@ const connectDB = async () => {
 
   try {
     // Enable Mongoose debug logs
-    mongoose.set('debug', true);
+    if (process.env?.NODE_ENV === 'development') {
+      mongoose.set('debug', true);
+    }
 
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 10000,

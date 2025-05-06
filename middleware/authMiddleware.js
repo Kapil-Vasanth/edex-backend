@@ -59,12 +59,12 @@ const allowSelfOrAdmin = () => {
       req.user.role === 'student' &&
       req.params?.id === req.student?.student_id;
 
-    console.log('User role:', req.user.role);
-    console.log('req.user.id:', req.user.id);
-    console.log('req.params.id:', req.params.id);
-    console.log('isStudentSelf:', isStudentSelf);
-    console.log('student_id:', req.student?.student_id);
-    console.log('studentId:', req.student?._id.toString());
+    // console.log('User role:', req.user.role);
+    // console.log('req.user.id:', req.user.id);
+    // console.log('req.params.id:', req.params.id);
+    // console.log('isStudentSelf:', isStudentSelf);
+    // console.log('student_id:', req.student?.student_id);
+    // console.log('studentId:', req.student?._id.toString());
 
     if (isAgent || isStudentSelf) {
       return next();
