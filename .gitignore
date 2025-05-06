@@ -36,3 +36,6 @@ Thumbs.db
 # Git files
 *.orig
 *.rej
+
+# Upload files
+uploads/
