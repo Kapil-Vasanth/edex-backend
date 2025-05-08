@@ -1,8 +1,10 @@
 // controllers/authController.js
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const Agent = require('../models/agentModel'); // Use the agent model
 const Student = require('../models/studentModel'); // Use the agent model
+const { sendPasswordResetEmail } = require('../utils/emailUtils'); // Import the email utility
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -81,7 +83,6 @@ const createAgent = async (req, res) => {
 };
 
 // Function to student login
-// Function to student login
 const loginStudent = async (req, res) => {
   const jwtSecret = process.env.JWT_SECRET || 'defaultSecretKey';
   const { email, password } = req.body;
@@ -114,10 +115,73 @@ const loginStudent = async (req, res) => {
 };
 
 
+// Forgot Password (for Student)
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  
+  try {
+    // Find the student by email
+    const student = await Student.findOne({ email });
+
+    if (!student) {
+      return res.status(400).json({ message: 'No Such Email Found' });
+    }
+
+    // Generate a reset token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetTokenExpiration = Date.now() + 3600000; // Token valid for 1 hour
+
+    // Store the token and expiration date in the student's document
+    student.resetToken = resetToken;
+    student.resetTokenExpiration = resetTokenExpiration;
+    await student.save();
+
+    // Send email with the reset link
+    await sendPasswordResetEmail(student.email, resetToken);
+
+    res.status(200).json({ message: 'Password reset link sent to email' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    // Find student by reset token and check if it's not expired
+    const student = await Student.findOne({
+      resetToken: token,
+      resetTokenExpiration: { $gt: Date.now() }, // not expired
+    });
+    if (!student) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+
+
+    // Update student password and clear reset token fields
+    student.password = newPassword;
+    student.resetToken = undefined;
+    student.resetTokenExpiration = undefined;
+
+    await student.save();
+
+    res.status(200).json({ message: 'Password has been reset successfully' });
+  } catch (error) {
+    console.error('Reset Password Error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 
 module.exports = {
   agentLogin,
   createAgent,
   loginStudent,
+  forgotPassword,
+  resetPassword,
 };

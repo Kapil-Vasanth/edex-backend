@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs'); // Import bcrypt for password hashing
 
 const studentSchema = new mongoose.Schema({
   student_id: { type: String, required: true, unique: true },
@@ -27,6 +28,8 @@ const studentSchema = new mongoose.Schema({
   funds_loan: String,
   funds_direct_deposit: String,
   sop: String,
+  resetToken: String,
+  resetTokenExpiration: Date,
 
   contact_details: [{
     contact_type: String,
