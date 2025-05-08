@@ -137,7 +137,7 @@ const forgotPassword = async (req, res) => {
     await student.save();
 
     // Send email with the reset link
-    await sendPasswordResetEmail(student.email, resetToken);
+    await sendPasswordResetEmail(student.email, resetToken, student.first_name); // Pass the first name to the email utility
 
     res.status(200).json({ message: 'Password reset link sent to email' });
 
