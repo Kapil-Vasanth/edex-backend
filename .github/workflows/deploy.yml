@@ -3,7 +3,7 @@ name: Deploy to A2 Hosting
 on:
   push:
     branches:
-      - main  # or 'master' or your deployment branch
+      - main
 
 jobs:
   deploy:
@@ -13,11 +13,12 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.A2_HOST }}
-          username: ${{ secrets.A2_USER }}
+          host: ${{ secrets.A2_SSH_HOST }}
+          username: ${{ secrets.A2_SSH_USER }}
           key: ${{ secrets.A2_SSH_KEY }}
+          port: 7822
           script: |
             cd ~/nodeapps/myapp
             git pull origin main
-            npm install
+            npm install --production
             touch tmp/restart.txt
