@@ -20,5 +20,12 @@ jobs:
           port: 7822
           script: |
             cd /home/wingslidecoin/githubflowtest
+            
+            # Remove node_modules if it exists
+            if [ -d "node_modules" ]; then
+              echo "Removing node_modules directory"
+              rm -rf node_modules
+            fi
+
             git pull origin main
             npm install --production
