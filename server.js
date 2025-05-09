@@ -49,7 +49,7 @@ connectDB()
 
 // Routes
 app.get('/api/health', (req, res) => {
-    res.status(200).json({ message: 'Backend is running smoothly!' });
+    res.status(200).json({ message: 'Backend is running smoothly and updated githubflow!' });
 });
 app.use('/api/students', StudentRoute);
 
