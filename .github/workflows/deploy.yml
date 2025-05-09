@@ -16,6 +16,7 @@ jobs:
           host: ${{ secrets.A2_SSH_HOST }}
           username: ${{ secrets.A2_SSH_USER }}
           key: ${{ secrets.A2_SSH_KEY }}
+          passphrase: ${{ secrets.A2_SSH_PASSPHRASE }}
           port: 7822
           script: |
             cd ~/nodeapps/myapp
