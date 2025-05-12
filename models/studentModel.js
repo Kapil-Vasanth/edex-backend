@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs'); // Import bcrypt for password hashing
 
 const studentSchema = new mongoose.Schema({
   student_id: { type: String, required: true, unique: true },
+  college_id: { type: String },
   university: String,
   first_name: String,
   last_name: String,
@@ -30,6 +31,8 @@ const studentSchema = new mongoose.Schema({
   sop: String,
   resetToken: String,
   resetTokenExpiration: Date,
+  last_updated_by: String,
+  last_updated_at: String,
 
   contact_details: [{
     contact_type: String,
@@ -121,11 +124,17 @@ const studentSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Hash password before saving to the database
-studentSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next(); // Don't hash if password isn't modified
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+studentSchema.pre('save', async function (next) {
+  // 1. Hash password if changed
+  if (this.isModified('password')) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+  // 2. Track update metadata
+  if (this._updatingUser) {
+    this.last_updated_by = this._updatingUser;
+  }
+
   next();
 });
 

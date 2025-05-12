@@ -14,7 +14,6 @@ const authenticate = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, jwtSecret);
-    console.log('Decoded token:', decoded);
 
     // Normalize the user and attach full object
     if (decoded.role === 'agent' && decoded.agentId) {
@@ -30,6 +29,13 @@ const authenticate = async (req, res, next) => {
       req.user = { id: student._id.toString() , role: 'student' };
     } else {
       return res.status(400).json({ message: 'Invalid token payload' });
+    }
+
+    // Attach for use in update tracking
+    if (req.body) {
+      req.body.last_updated_by = req.agent?.name || `${req.student?.first_name} ${req.student?.last_name}` || req.user?.id || 'unknown';
+      req._updatingUser = req.agent?.name || `${req.student?.first_name} ${req.student?.last_name}` || req.user?.id || 'unknown';
+      console.log('Updating user:', req.body.last_updated_by);
     }
 
     next();

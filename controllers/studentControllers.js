@@ -7,7 +7,7 @@ const uploadStudentAvatar = async (req, res) => {
       const studentId = req.params.id;
       const avatarPath = path.posix.join('uploads', studentId, req.file.filename); // relative path for frontend
       
-      const student = await studentService.uploadStudentAvatar(studentId, avatarPath);
+      const student = await studentService.uploadStudentAvatar(studentId, avatarPath, req._updatingUser);
   
       if (!student) {
         return res.status(404).json({ message: 'Student not found' });
@@ -49,7 +49,7 @@ const uploadStudentDocument = async (req, res) => {
       };
   
       // Push the document to student's document array
-      const student = await studentService.addDocumentToStudent(studentId, documentData);
+      const student = await studentService.addDocumentToStudent(studentId, documentData, req._updatingUser);
   
       if (!student) {
         return res.status(404).json({ message: 'Student not found' });
@@ -148,8 +148,7 @@ const updateStudentContactDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        
-        const updatedStudent = await studentService.updateStudentContactDetails(id, contact_details);
+        const updatedStudent = await studentService.updateStudentContactDetails(id, contact_details, req._updatingUser);
 
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
@@ -171,7 +170,7 @@ const updateStudentAddressDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateStudentAddressDetails(id, address_details);
+        const updatedStudent = await studentService.updateStudentAddressDetails(id, address_details, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -192,7 +191,7 @@ const updateEmergencyContactsDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateEmergencyContactsDetails(id, emergency_contacts);
+        const updatedStudent = await studentService.updateEmergencyContactsDetails(id, emergency_contacts, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -213,7 +212,7 @@ const updateAcademicDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateAcademicDetails(id, academic_details);
+        const updatedStudent = await studentService.updateAcademicDetails(id, academic_details, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -234,7 +233,7 @@ const updateTertiaryEducationDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateTertiaryEducationDetails(id, tertiary_education);
+        const updatedStudent = await studentService.updateTertiaryEducationDetails(id, tertiary_education, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -255,7 +254,7 @@ const updateEmploymentHistoryDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateEmploymentHistoryDetails(id, employment_history);
+        const updatedStudent = await studentService.updateEmploymentHistoryDetails(id, employment_history, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -276,7 +275,7 @@ const updateLanguageProficiencyDetails = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateLanguageProficiencyDetails(id, language_proficiency);
+        const updatedStudent = await studentService.updateLanguageProficiencyDetails(id, language_proficiency, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }
@@ -297,7 +296,7 @@ const updateUnsubmittedProgrammes = async (req, res) => {
         return res.status(400).json({ message: "Student ID is required" });
     }
     try {
-        const updatedStudent = await studentService.updateUnsubmittedProgrammes(id, unsubmitted_programmes);
+        const updatedStudent = await studentService.updateUnsubmittedProgrammes(id, unsubmitted_programmes, req._updatingUser);
         if (!updatedStudent) {
             return res.status(404).json({ message: "Student not found" });
         }

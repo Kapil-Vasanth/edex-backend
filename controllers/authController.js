@@ -102,7 +102,7 @@ const loginStudent = async (req, res) => {
     }
 
     // Generate a JWT token for student
-    const token = jwt.sign({ studentId: student._id, role: 'student' }, jwtSecret, {
+    const token = jwt.sign({ studentId: student._id,name:student?.first_name +" "+ student?.last_name, role: 'student' }, jwtSecret, {
       expiresIn: '1h', // Token expiration time
     });
 
