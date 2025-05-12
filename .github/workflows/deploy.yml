@@ -29,4 +29,4 @@ jobs:
 
             git pull origin main
             npm install --production
-            ~/home/wingslidecoin/nodevenv/githubflowtest/20/bin/restart
+            /home/wingslidecoin/nodevenv/githubflowtest/20/bin/restart
