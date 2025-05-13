@@ -35,7 +35,6 @@ const authenticate = async (req, res, next) => {
     if (req.body) {
       req.body.last_updated_by = req.agent?.name || `${req.student?.first_name} ${req.student?.last_name}` || req.user?.id || 'unknown';
       req._updatingUser = req.agent?.name || `${req.student?.first_name} ${req.student?.last_name}` || req.user?.id || 'unknown';
-      console.log('Updating user:', req.body.last_updated_by);
     }
 
     next();
