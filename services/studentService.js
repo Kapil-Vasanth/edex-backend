@@ -24,7 +24,7 @@ const createStudent = async (data) => {
 };
 
 const updateStudent = async (id, data) => {
-    const { avatar, password, ...updateData } = data; // Exclude the avatar field from the update
+    const { avatar, password, student_id, ...updateData } = data; // Exclude the avatar field from the update
     const updatedStudent = await Student.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedStudent) throw new Error('Student not found');
     return updatedStudent;
