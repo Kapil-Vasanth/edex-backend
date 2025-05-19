@@ -123,7 +123,7 @@ const updateUnsubmittedProgrammes = async (id, unsubmittedProgrammes, lastUpdate
     return updatedStudent;
 }
 
-const uploadStudentAvatar = async (id, avatarPath) => {
+const uploadStudentAvatar = async (id, avatarPath, lastUpdatedBy) => {
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
         { $set: { avatar: avatarPath, last_updated_by: lastUpdatedBy } },
