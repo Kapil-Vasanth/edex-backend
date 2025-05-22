@@ -307,6 +307,32 @@ const updateUnsubmittedProgrammes = async (req, res) => {
     }
 }
 
+const updateSubmittedProgrammes = async (req, res) => {
+    console.log("Updating submitted programmes");
+  const { id } = req.params;
+  const { submitted_programmes } = req.body;
+
+  if (!Array.isArray(submitted_programmes)) {
+    return res.status(400).json({ message: "submitted_programmes must be an array" });
+  }
+
+  if (!id) {
+    return res.status(400).json({ message: "Student ID is required" });
+  }
+
+  try {
+    const updatedStudent = await studentService.updateSubmittedProgrammes(id, submitted_programmes, req._updatingUser);
+    
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
     uploadStudentAvatar,
     uploadStudentDocument,
@@ -328,4 +354,5 @@ module.exports = {
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
     updateUnsubmittedProgrammes,
+    updateSubmittedProgrammes
 };

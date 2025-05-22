@@ -123,6 +123,26 @@ const updateUnsubmittedProgrammes = async (id, unsubmittedProgrammes, lastUpdate
     return updatedStudent;
 }
 
+const updateSubmittedProgrammes = async (id, submittedProgrammes, lastUpdatedBy) => {
+    const updatedStudent = await Student.findByIdAndUpdate(
+        id,
+        {
+            $set: {
+                submitted_programmes: submittedProgrammes,
+                last_updated_by: lastUpdatedBy
+            }
+        },
+        { new: true }
+    );
+
+    if (!updatedStudent) {
+        throw new Error('Student not found');
+    }
+
+    return updatedStudent;
+};
+
+
 const uploadStudentAvatar = async (id, avatarPath, lastUpdatedBy) => {
     const updatedStudent = await Student.findByIdAndUpdate(
         id,
@@ -176,6 +196,7 @@ module.exports = {
     updateEmploymentHistoryDetails,
     updateLanguageProficiencyDetails,
     updateUnsubmittedProgrammes,
+    updateSubmittedProgrammes,
     uploadStudentAvatar,
     addDocumentToStudent,
 };

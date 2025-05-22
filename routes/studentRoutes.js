@@ -16,6 +16,7 @@ const {
     updateLanguageProficiencyDetails,
     uploadStudentAvatar,
     updateUnsubmittedProgrammes,
+    updateSubmittedProgrammes,
     uploadStudentDocument
 } = require('../controllers/studentControllers');
 const { uploadAvatar, uploadDocument } = require('../middleware/uploads');
@@ -45,6 +46,7 @@ router.put('/:id/tertiary-education', updateTertiaryEducationDetails);
 router.put('/:id/employment-history', updateEmploymentHistoryDetails);
 router.put('/:id/language-proficiency', updateLanguageProficiencyDetails);
 router.put('/:id/unsubmitted-programmes', updateUnsubmittedProgrammes);
+router.put('/:id/submitted-programmes', updateSubmittedProgrammes);
 
 
 
