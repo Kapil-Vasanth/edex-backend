@@ -308,7 +308,6 @@ const updateUnsubmittedProgrammes = async (req, res) => {
 }
 
 const updateSubmittedProgrammes = async (req, res) => {
-    console.log("Updating submitted programmes");
   const { id } = req.params;
   const { submitted_programmes } = req.body;
 

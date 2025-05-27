@@ -7,13 +7,13 @@ const getAllStudents = async () => {
 };
 
 const getStudentById = async (id) => {
-    const student = await Student.findById(id);
+    const student = await Student.findById(id).select('-password');
     if (!student) throw new Error('Student not found');
     return student;
 };
 
 const getStudentByStudentId = async (studentId) => {
-    const student = await Student.findOne({ student_id: studentId });
+    const student = await Student.findOne({ student_id: studentId }).select('-password');
     if (!student) throw new Error('Student not found');
     return student;
 }
