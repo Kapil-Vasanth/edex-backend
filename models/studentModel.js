@@ -48,7 +48,8 @@ const studentSchema = new mongoose.Schema({
   emergency_contacts: [{
     name: String,
     relationship: String,
-    phone_number: String
+    phone_number: String,
+    address: String,
   }],
 
   unsubmitted_programmes: [{
