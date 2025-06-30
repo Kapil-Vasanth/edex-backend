@@ -115,6 +115,55 @@ const loginStudent = async (req, res) => {
 };
 
 
+const generateStudentId = (firstname, citizenship, index) => {
+    const firstInitial = firstname.slice(0,2).toUpperCase();
+    const citizenshipCode = citizenship.slice(0, 2).toUpperCase();
+    const paddedIndex = String(index + 1).padStart(2, '0');
+
+    return `${firstInitial}${citizenshipCode}${paddedIndex}`;
+};
+
+const createStudent = async (req, res) => {
+  const { firstname, lastname, email, citizenship, password } = req.body;
+  console.log('Creating student with data:', req.body);
+  try {
+    // Check if the student already exists
+    const existingStudent = await Student.findOne({
+      $or: [
+        { email },
+      ]
+    });
+    if (existingStudent) {
+      return res.status(400).json({ message: 'Student already exists with this email' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const student_id = generateStudentId(firstname, citizenship, Math.floor(Math.random() * 100));
+
+    // Create new student
+    const newStudent = new Student({
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      citizenship,
+      password,
+      student_id
+    });
+
+    await newStudent.save();
+
+    return res.status(201).json({
+      student: newStudent,
+      message: 'Student created successfully'
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to create student' });
+  }
+};
+
+
 // Forgot Password (for Student)
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -181,6 +230,7 @@ const resetPassword = async (req, res) => {
 module.exports = {
   agentLogin,
   createAgent,
+  createStudent,
   loginStudent,
   forgotPassword,
   resetPassword,
