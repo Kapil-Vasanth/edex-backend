@@ -115,17 +115,27 @@ const loginStudent = async (req, res) => {
 };
 
 
-const generateStudentId = (firstname, citizenship, index) => {
+const generateStudentId = async (firstname, citizenship, index) => {
     const firstInitial = firstname.slice(0,2).toUpperCase();
     const citizenshipCode = citizenship.slice(0, 2).toUpperCase();
     const paddedIndex = String(index + 1).padStart(2, '0');
+    // Ensure the student ID is always 6 characters long and is unique from the database
+    const studentId = `${firstInitial}${citizenshipCode}${paddedIndex}`;
+    // Check if the student ID is already in use
+    const existingStudent = await Student.findOne({ student_id: studentId });
+    if (existingStudent) {
+        throw new Error('Student ID already in use');
+    }
 
-    return `${firstInitial}${citizenshipCode}${paddedIndex}`;
+    if (paddedIndex.length > 2) {
+        throw new Error('Index must be less than 100');
+    }
+    return `${studentId}`;
 };
 
 const createStudent = async (req, res) => {
   const { firstname, lastname, email, citizenship, password } = req.body;
-  console.log('Creating student with data:', req.body);
+  
   try {
     // Check if the student already exists
     const existingStudent = await Student.findOne({
@@ -138,7 +148,6 @@ const createStudent = async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
     const student_id = generateStudentId(firstname, citizenship, Math.floor(Math.random() * 100));
 
     // Create new student
