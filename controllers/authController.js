@@ -148,7 +148,7 @@ const createStudent = async (req, res) => {
     }
 
     // Hash the password
-    const student_id = generateStudentId(firstname, citizenship, Math.floor(Math.random() * 100));
+    const student_id = await generateStudentId(firstname, citizenship, Math.floor(Math.random() * 100));
 
     // Create new student
     const newStudent = new Student({
