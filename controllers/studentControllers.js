@@ -332,12 +332,22 @@ const updateSubmittedProgrammes = async (req, res) => {
   }
 };
 
+const getUniversities = async (req, res) => {
+    try {
+        const universities = await studentService.getUniversities();
+        res.status(200).json(universities);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     uploadStudentAvatar,
     uploadStudentDocument,
 
     getAllStudents,
     getStudentById,
+    getUniversities,
     createStudent,
     updateStudent,
     deleteStudent,

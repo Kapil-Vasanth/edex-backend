@@ -36,6 +36,11 @@ const deleteStudent = async (id) => {
     return deletedStudent;
 };
 
+const getUniversities = async () => {
+    // get from all the student universities
+    const students = await Student.find().select('university');
+    return students.map(student => student.university);
+};
 
 const updateStudentContactDetails = async (id, contactDetails,lastUpdatedBy) => {
     console.log('lastUpdatedBy:', lastUpdatedBy);
@@ -184,6 +189,7 @@ const addDocumentToStudent = async (studentId, documentData, lastUpdatedBy) => {
 module.exports = {
     getAllStudents,
     getStudentById,
+    getUniversities,
     createStudent,
     updateStudent,
     deleteStudent,

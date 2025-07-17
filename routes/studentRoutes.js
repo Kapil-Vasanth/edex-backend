@@ -2,6 +2,7 @@ const express = require('express');
 const {
     getAllStudents,
     getStudentById,
+    getUniversities,
     createStudent,
     updateStudent,
     deleteStudent,
@@ -31,6 +32,7 @@ const router = express.Router();
 // Apply universal auth + self-or-admin check
 router.use(authenticate);
 
+router.get('/universities', getUniversities);
 router.post('/',authorize(['agent']), createStudent);
 router.get('/',authorize(['agent']), getAllStudents);
 router.get('/:id',allowSelfOrAdmin(), getStudentByStudentId);
