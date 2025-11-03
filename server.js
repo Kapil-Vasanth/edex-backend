@@ -22,7 +22,8 @@ app.use(cors({
     'https://wingslide.co.in',
     'http://localhost:3000',
     'https://localhost:3000',
-    'https://edex.wingslide.co.in'
+    'https://edex.wingslide.co.in',
+    'https://edexacademy.com',
   ],
   credentials: true,
 }));
